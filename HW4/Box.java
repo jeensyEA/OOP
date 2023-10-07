@@ -1,9 +1,12 @@
-package ru.geekbrains.lesson4;
+package ru.geekbrains.lesson4.homework;
 
 import java.util.ArrayList;
 
-public class Box<T extends Fruit>{
-    private ArrayList<T> box;
+public class Box<T extends Fruct> {
+
+    ArrayList<T> fructs;
+
+}
 
     public Box () {
         this.box = new ArrayList<>();
@@ -12,10 +15,6 @@ public class Box<T extends Fruit>{
         this.box = box;
     }
 
-    /**
-     * Method moves all Fruits from a container to a current box
-     * @param donorBox - box from where we will take Fruits
-     */
     public void takeFromBox(Box<T> donorBox) {
         this.box.addAll(donorBox.box);
         donorBox.box.clear();
