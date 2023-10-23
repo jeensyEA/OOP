@@ -1,37 +1,33 @@
+package ru.geekbrains.lesson6.srp2;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
 public class Order {
 
-    private static int count;
-    private final int id;
-    private Client client;
-    private Product product;
+    private String clientName;
+    private String product;
     private int qnt;
+    private int price;
 
 
-    static {
-        count = 0;
+    public Order(){
+
     }
 
-    public Order() {
-        id = count++;
-        inputFromConsole();
-    }
-
-    public Order(Client client, Product product, int qnt) {
-        this.client = client;
+    public Order(String clientName, String product, int qnt, int price) {
+        this.clientName = clientName;
         this.product = product;
         this.qnt = qnt;
-        this.id = count++;
+        this.price = price;
     }
 
-    public Client getClient() {
-        return client;
+    public String getClientName() {
+        return clientName;
     }
 
-    public Product getProduct() {
+    public String getProduct() {
         return product;
     }
 
@@ -39,21 +35,35 @@ public class Order {
         return qnt;
     }
 
-    public double getPrice() {
-        return product.getPrice();
+    public int getPrice() {
+        return price;
     }
-
-    public int getId() {
-        return id;
-    }
-
 
     public void inputFromConsole(){
-        client = Services.getClientFromConsole(client);
-        product = Services.getProductFromConsole(product);
-        qnt = Services.getQuantity();
+        clientName = prompt("Client name: ");
+        product = prompt("Product: ");
+        qnt = Integer.parseInt(prompt("Quantity: "));
+        price = Integer.parseInt(prompt("Price: "));
     }
 
+    public void saveToJson() {
+        String fileName = "order.json";
+        try (FileWriter writer = new FileWriter(fileName, false)) {
+            writer.write("{\n");
+            writer.write("\"clientName\":\""+ clientName + "\",\n");
+            writer.write("\"product\":\""+product+"\",\n");
+            writer.write("\"qnt\":"+qnt+",\n");
+            writer.write("\"price\":"+price+"\n");
+            writer.write("}\n");
+            writer.flush();
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
 
-
+    private String prompt(String message) {
+        Scanner in = new Scanner(System.in);
+        System.out.print(message);
+        return in.nextLine();
+    }
 }
